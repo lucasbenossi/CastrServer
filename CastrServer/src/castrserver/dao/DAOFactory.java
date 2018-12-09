@@ -50,4 +50,7 @@ public class DAOFactory implements AutoCloseable {
 	public FriendshipDAO createFriendshipDAO() {
 		return new FriendshipDAO(connection);
 	}
+	public ItemDAO createItemsDAO() {
+		return new ItemDAO(connection);
+	}
 }
