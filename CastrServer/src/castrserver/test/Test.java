@@ -1,15 +1,15 @@
 package castrserver.test;
 
 import castrserver.dao.DAOFactory;
-import castrserver.dao.GroupDAO;
-import castrserver.model.Group;
+import castrserver.dao.GameDAO;
+import castrserver.model.Game;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
 		try (DAOFactory daoFact = new DAOFactory();){
-			GroupDAO dao = daoFact.createGroupDAO();
-			for(Group group : dao.getGroupsFromOwner(20)) {
-				System.out.println(group.getName());
+			GameDAO dao = daoFact.createGameDAO();
+			for(Game game : dao.all()) {
+				System.out.println(game.getName());
 			}
 		}
 	}

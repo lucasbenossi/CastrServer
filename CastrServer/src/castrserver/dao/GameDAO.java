@@ -32,11 +32,7 @@ public class GameDAO extends DAO {
 			stmt.setInt(1, id);
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
-					game = new Game(result.getInt("id"), 
-							result.getString("name"), 
-							result.getString("location"), 
-							result.getDate("game_date"),
-							result.getInt("group_id"));
+					game = new Game(result);
 				}
 			}
 		}
@@ -73,11 +69,7 @@ public class GameDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);
 				ResultSet result = stmt.executeQuery();) {
 			while(result.next()) {
-				games.add(new Game(result.getInt("id"), 
-						result.getString("name"), 
-						result.getString("location"), 
-						result.getDate("game_date"),
-						result.getInt("group_id")));
+				games.add(new Game(result));
 			}
 		}
 		return games;
