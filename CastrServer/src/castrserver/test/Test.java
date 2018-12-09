@@ -1,17 +1,16 @@
 package castrserver.test;
 
-import java.sql.Date;
-
 import castrserver.dao.DAOFactory;
-import castrserver.dao.GameDAO;
-import castrserver.dao.UserGroupMembershipDAO;
-import castrserver.model.Game;
+import castrserver.dao.GroupDAO;
+import castrserver.model.Group;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
 		try (DAOFactory daoFact = new DAOFactory();){
-			UserGroupMembershipDAO dao = daoFact.createUserGroupMembershipDAO();
-			dao.deleteUserGroup(21, 21);
+			GroupDAO dao = daoFact.createGroupDAO();
+			for(Group group : dao.getGroupsFromOwner(20)) {
+				System.out.println(group.getName());
+			}
 		}
 	}
 }

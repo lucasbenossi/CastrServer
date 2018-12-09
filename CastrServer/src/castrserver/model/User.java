@@ -1,6 +1,8 @@
 package castrserver.model;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class User {
 	private int id;
@@ -15,6 +17,14 @@ public class User {
 		this.password = password;
 		this.name = name;
 		this.birthday = birthday;
+	}
+	
+	public User(ResultSet result) throws SQLException {
+		this.id = result.getInt("id");
+		this.login = result.getString("login"); 
+		this.password = result.getString("password"); 
+		this.name = result.getString("name");
+		this.birthday = result.getDate("birthday");
 	}
 
 	public int getId() {
@@ -39,5 +49,4 @@ public class User {
 	public Date getBirthday() {
 		return birthday;
 	}
-
 }

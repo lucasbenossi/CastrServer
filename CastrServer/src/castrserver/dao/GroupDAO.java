@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import castrserver.model.Group;
+import castrserver.model.User;
 
 public class GroupDAO extends DAO {
 
@@ -30,9 +31,7 @@ public class GroupDAO extends DAO {
 			stmt.setInt(1, id);
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
-					group = new Group(result.getInt("id"),
-							result.getString("name"), 
-							result.getInt("creator_id"));
+					group = new Group(result);
 				}
 			}
 		}
@@ -67,9 +66,38 @@ public class GroupDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);
 				ResultSet result = stmt.executeQuery();) {
 			while(result.next()) {
-				groups.add(new Group(result.getInt("id"),
-						result.getString("name"), 
-						result.getInt("creator_id")));
+				groups.add(new Group(result));
+			}
+		}
+		return groups;
+	}
+	
+	public User getOwner(int groupId) throws SQLException {
+		String query = "SELECT u.id, u.login, u.password, u.name, u.birthday "
+				+ "FROM USER_TABLE AS u JOIN GROUP_TABLE AS g "
+				+ "ON u.id = g.creator_id "
+				+ "WHERE g.id = ?;";
+		User owner = null;
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			stmt.setInt(1, groupId);
+			try (ResultSet result = stmt.executeQuery();) {
+				if(result.next()) {
+					owner = new User(result);
+				}
+			}
+		}
+		return owner;
+	}
+	
+	public LinkedList<Group> getGroupsFromOwner(int userId) throws SQLException {
+		LinkedList<Group> groups = new LinkedList<>();
+		String query = "SELECT * FROM GROUP_TABLE WHERE creator_id = ?;";
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			stmt.setInt(1, userId);
+			try (ResultSet result = stmt.executeQuery();) {
+				while(result.next()) {
+					groups.add(new Group(result));
+				}
 			}
 		}
 		return groups;

@@ -32,11 +32,7 @@ public class UserDAO extends DAO {
 			stmt.setInt(1, id);
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
-					user = new User(result.getInt("id"), 
-							result.getString("login"), 
-							result.getString("password"), 
-							result.getString("name"), 
-							result.getDate("birthday"));
+					user = new User(result);
 				}
 			}
 		}
@@ -73,11 +69,7 @@ public class UserDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);
 				ResultSet result = stmt.executeQuery();) {
 			while(result.next()) {
-				users.add(new User(result.getInt("id"), 
-						result.getString("login"), 
-						result.getString("password"), 
-						result.getString("name"),
-						result.getDate("birthday")));
+				users.add(new User(result));
 			}
 		}
 		return users;
