@@ -41,4 +41,7 @@ public class DAOFactory implements AutoCloseable {
 	public GroupDAO createGroupDAO() {
 		return new GroupDAO(connection);
 	}
+	public GameDAO createGameDAO() {
+		return new GameDAO(connection);
+	}
 }
