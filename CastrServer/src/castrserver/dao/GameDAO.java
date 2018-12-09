@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import castrserver.model.Game;
+import castrserver.model.Group;
 
 public class GameDAO extends DAO {
 
@@ -70,6 +71,37 @@ public class GameDAO extends DAO {
 				ResultSet result = stmt.executeQuery();) {
 			while(result.next()) {
 				games.add(new Game(result));
+			}
+		}
+		return games;
+	}
+	
+	public Group getOwner(int gameId) throws SQLException {
+		Group group = null;
+		String query = "SELECT g.id, g.name, g.creator_id "
+				+ "FROM GROUP_TABLE AS g JOIN GAME as j "
+				+ "ON g.id = j.group_id "
+				+ "WHERE j.id = ?;";
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			stmt.setInt(1, gameId);
+			try (ResultSet result = stmt.executeQuery();) {
+				if(result.next()) {
+					group = new Group(result);
+				}
+			}
+		}
+		return group;
+	}
+	
+	public LinkedList<Game> getGamesFromOwner(int groupId) throws SQLException {
+		LinkedList<Game> games = new LinkedList<>();
+		String query = "SELECT * FROM GAME WHERE group_id = ?;";
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			stmt.setInt(1, groupId);
+			try (ResultSet result = stmt.executeQuery();) {
+				while(result.next()) {
+					games.add(new Game(result));
+				}
 			}
 		}
 		return games;
