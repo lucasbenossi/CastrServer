@@ -20,7 +20,7 @@ public class GameDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);){
 			stmt.setString(1, game.getName());
 			stmt.setString(2, game.getLocation());
-			stmt.setDate(3, game.getDate());
+			stmt.setDate(3, game.getGameDate());
 			stmt.setInt(4, game.getGroupId());
 			stmt.execute();
 		}
@@ -45,7 +45,7 @@ public class GameDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setString(1, game.getName());
 			stmt.setString(2, game.getLocation());
-			stmt.setDate(3, game.getDate());
+			stmt.setDate(3, game.getGameDate());
 			stmt.setInt(4, game.getGroupId());
 			stmt.setInt(5, game.getId());
 			if(stmt.executeUpdate() < 1) {

@@ -42,12 +42,11 @@ public class Game {
 		return location;
 	}
 
-	public Date getDate() {
+	public Date getGameDate() {
 		return this.gameDate;
 	}
 	
 	public int getGroupId() {
 		return this.groupId;
 	}
-	
 }
