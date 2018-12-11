@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import castrserver.dao.DAOFactory;
 import castrserver.dao.UserDAO;
@@ -21,13 +22,14 @@ import castrserver.model.User;
 import castrserver.rest.json.ExceptionHandler;
 import castrserver.rest.json.GsonUtils;
 
-@Path("/user")
+@Path("/User")
 public class UserService {
 	
 	@POST
 	@Path("/create")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	public Response create(String json) {
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response create(JsonElement json) {
 		User user = GsonUtils.getInstance().fromJson(json, User.class);
 		
 		try (DAOFactory daoFact = new DAOFactory();) {
@@ -55,13 +57,14 @@ public class UserService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok(GsonUtils.getInstance().toJsonTree(user)).build();
+		return Response.ok(GsonUtils.getInstance().toJsonTree(user, User.class)).build();
 	}
 	
 	@POST
 	@Path("/update")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	public Response update(String json) {
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response update(JsonElement json) {
 		User user = GsonUtils.getInstance().fromJson(json, User.class);
 		
 		try (DAOFactory daoFact = new DAOFactory();) {
@@ -77,7 +80,7 @@ public class UserService {
 	
 	@POST
 	@Path("/delete")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response delete(@QueryParam("id") int id) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			UserDAO dao = daoFact.createUserDAO();
@@ -99,17 +102,42 @@ public class UserService {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			UserDAO dao = daoFact.createUserDAO();
 			
-			JsonArray jarray = new JsonArray();
+			JsonArray array = new JsonArray();
 			for(User user : dao.all()) {
-				jarray.add(GsonUtils.getInstance().toJsonTree(user));
+				array.add(GsonUtils.getInstance().toJsonTree(user, User.class));
 			}
-			
-			json = jarray;
+			json = array;
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 			return ExceptionHandler.toResponse(e);
 		}
 		
 		return Response.ok(json).build();
+	}
+	
+	@POST
+	@Path("authenticate")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+	public Response authenticate(JsonElement json) {
+		JsonElement response = null;
+		
+		try (DAOFactory daoFact = new DAOFactory();) {
+			UserDAO dao = daoFact.createUserDAO();
+			
+			JsonObject jsonObj = json.getAsJsonObject();
+			String login = jsonObj.get("login").getAsString();
+			String password = jsonObj.get("password").getAsString();
+			
+			JsonObject auth = new JsonObject();
+			auth.addProperty("authenticate", dao.authenticate(login, password));
+			
+			response = auth;
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			e.printStackTrace();
+			return ExceptionHandler.toResponse(e);
+		}
+		
+		return Response.ok(response).build();
 	}
 }

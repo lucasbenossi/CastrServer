@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
@@ -18,13 +19,13 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public class GsonProvider implements MessageBodyWriter<Object>, MessageBodyReader<Object> {
+@Consumes({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
+public class JsonElementProvider implements MessageBodyWriter<JsonElement>, MessageBodyReader<JsonElement> {
 
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -32,7 +33,7 @@ public class GsonProvider implements MessageBodyWriter<Object>, MessageBodyReade
 	}
 
 	@Override
-	public long getSize(Object t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+	public long getSize(JsonElement t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		return -1;
 	}
 
@@ -42,27 +43,27 @@ public class GsonProvider implements MessageBodyWriter<Object>, MessageBodyReade
 	}
 
 	@Override
-	public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+	public JsonElement readFrom(Class<JsonElement> type, Type genericType, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
 			throws IOException, WebApplicationException {
-		Gson gson = GsonUtils.getInstance();
-		Object object = null;
+		JsonElement json = null;
 		
-		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(entityStream))) {
-			object = gson.fromJson(reader, type);
+		JsonParser parser = new JsonParser();
+		try (Reader reader = new InputStreamReader(entityStream);) {
+			json = parser.parse(reader);
 		}
 		
-		return object;
+		return json;
 	}
 
 	@Override
-	public void writeTo(Object t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+	public void writeTo(JsonElement json, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
 			throws IOException, WebApplicationException {
 		Gson gson = GsonUtils.getInstance();
 		
-		try (JsonWriter writer = gson.newJsonWriter(new OutputStreamWriter(entityStream))) {
-			gson.toJson(t, type, writer);
+		try(OutputStreamWriter writer = new OutputStreamWriter(entityStream);) {
+			gson.toJson(json, writer);
 		}
 	}
 

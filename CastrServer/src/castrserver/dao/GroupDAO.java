@@ -72,14 +72,14 @@ public class GroupDAO extends DAO {
 		return groups;
 	}
 	
-	public User getOwner(int groupId) throws SQLException {
+	public User getOwnerFromGroup(int id) throws SQLException {
 		String query = "SELECT u.id, u.login, u.password, u.name, u.birthday "
 				+ "FROM USER_TABLE AS u JOIN GROUP_TABLE AS g "
 				+ "ON u.id = g.creator_id "
 				+ "WHERE g.id = ?;";
 		User owner = null;
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
-			stmt.setInt(1, groupId);
+			stmt.setInt(1, id);
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					owner = new User(result);
@@ -89,11 +89,11 @@ public class GroupDAO extends DAO {
 		return owner;
 	}
 	
-	public LinkedList<Group> getGroupsFromOwner(int userId) throws SQLException {
+	public LinkedList<Group> getGroupsFromOwner(int id) throws SQLException {
 		LinkedList<Group> groups = new LinkedList<>();
 		String query = "SELECT * FROM GROUP_TABLE WHERE creator_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
-			stmt.setInt(1, userId);
+			stmt.setInt(1, id);
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					groups.add(new Group(result));

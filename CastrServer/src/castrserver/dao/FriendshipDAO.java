@@ -65,13 +65,4 @@ public class FriendshipDAO extends DAO {
 			}
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
-		try (DAOFactory daoFact = new DAOFactory();) {
-			FriendshipDAO dao = daoFact.createFriendshipDAO();
-			for(User user : dao.getFriends(21)) {
-				System.out.println(user.getLogin());
-			}
-		}
-	}
 }
