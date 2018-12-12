@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import castrserver.dao.DAOFactory;
 import castrserver.dao.UserDAO;
@@ -28,7 +29,7 @@ public class UserService {
 	@POST
 	@Path("/create")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(JsonElement json) {
 		User user = GsonUtils.getInstance().fromJson(json, User.class);
 		
@@ -40,7 +41,7 @@ public class UserService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build();
+		return Response.ok(new JsonPrimitive("ok")).build();
 	}
 	
 	@GET
@@ -63,7 +64,7 @@ public class UserService {
 	@POST
 	@Path("/update")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(JsonElement json) {
 		User user = GsonUtils.getInstance().fromJson(json, User.class);
 		
@@ -75,12 +76,12 @@ public class UserService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build(); 
+		return Response.ok(new JsonPrimitive("ok")).build(); 
 	}
 	
 	@POST
 	@Path("/delete")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@QueryParam("id") int id) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			UserDAO dao = daoFact.createUserDAO();
@@ -90,7 +91,7 @@ public class UserService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build(); 
+		return Response.ok(new JsonPrimitive("ok")).build(); 
 	}
 
 	@GET
@@ -117,8 +118,8 @@ public class UserService {
 	
 	@POST
 	@Path("/authenticate")
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response authenticate(JsonElement json) {
 		JsonElement response = null;
 		

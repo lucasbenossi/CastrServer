@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import castrserver.dao.DAOFactory;
 import castrserver.dao.FriendshipDAO;
@@ -26,7 +27,7 @@ public class FriendshipService {
 	
 	@POST
 	@Path("addFriend")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response addFriend(@QueryParam("userId") int userId, @QueryParam("friendId") int friendId) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			FriendshipDAO dao = daoFact.createFriendshipDAO();
@@ -36,12 +37,12 @@ public class FriendshipService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build();
+		return Response.ok(new JsonPrimitive("ok")).build();
 	}
 	
 	@POST
 	@Path("removeFriend")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response removeFriend(@QueryParam("userId") int userId, @QueryParam("friendId") int friendId) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			FriendshipDAO dao = daoFact.createFriendshipDAO();
@@ -51,7 +52,7 @@ public class FriendshipService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build();
+		return Response.ok(new JsonPrimitive("ok")).build();
 	}
 	
 	@GET

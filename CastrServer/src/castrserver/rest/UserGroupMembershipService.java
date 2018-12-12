@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import castrserver.dao.DAOFactory;
 import castrserver.dao.UserGroupMembershipDAO;
@@ -26,7 +27,7 @@ public class UserGroupMembershipService {
 
 	@POST
 	@Path("insertUserGroup")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response insertUserGroup(@QueryParam("groupId") int groupId, @QueryParam("userId") int userId) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			UserGroupMembershipDAO dao = daoFact.createUserGroupMembershipDAO();
@@ -36,12 +37,12 @@ public class UserGroupMembershipService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build();
+		return Response.ok(new JsonPrimitive("ok")).build();
 	}
 	
 	@POST
 	@Path("deleteUserGroup")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUserGroup(@QueryParam("groupId") int groupId, @QueryParam("userId") int userId) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			UserGroupMembershipDAO dao = daoFact.createUserGroupMembershipDAO();
@@ -51,7 +52,7 @@ public class UserGroupMembershipService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build();
+		return Response.ok(new JsonPrimitive("ok")).build();
 	}
 	
 	@GET

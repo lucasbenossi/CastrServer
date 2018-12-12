@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import castrserver.dao.DAOFactory;
 import castrserver.dao.GroupDAO;
@@ -28,7 +29,7 @@ public class GroupService {
 	@POST
 	@Path("/create")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(JsonElement json) {
 		Group group = GsonUtils.getInstance().fromJson(json, Group.class);
 		
@@ -40,7 +41,7 @@ public class GroupService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build();
+		return Response.ok(new JsonPrimitive("ok")).build();
 	}
 	
 	@GET
@@ -63,7 +64,7 @@ public class GroupService {
 	@POST
 	@Path("/update")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(JsonElement json) {
 		Group group = GsonUtils.getInstance().fromJson(json, Group.class);
 		
@@ -75,12 +76,12 @@ public class GroupService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build(); 
+		return Response.ok(new JsonPrimitive("ok")).build(); 
 	}
 	
 	@POST
 	@Path("/delete")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@QueryParam("id") int id) {
 		try (DAOFactory daoFact = new DAOFactory();) {
 			GroupDAO dao = daoFact.createGroupDAO();
@@ -90,7 +91,7 @@ public class GroupService {
 			return ExceptionHandler.toResponse(e);
 		}
 		
-		return Response.ok("ok").build(); 
+		return Response.ok(new JsonPrimitive("ok")).build(); 
 	}
 
 	@GET
