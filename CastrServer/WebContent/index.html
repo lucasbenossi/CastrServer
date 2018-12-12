@@ -7,6 +7,15 @@
 	body {
 		font-family: monospace;
 	}
+	.red {
+		color: red;
+	}
+	.green {
+		color: green;
+	}
+	.blue {
+		color: blue;
+	}
 </style>
 </head>
 <body>
@@ -34,53 +43,53 @@
 <h2>URLs</h2>
 
 <p><b>User</b></p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/User/create<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">User</span>/<span class="blue">create</span><br>
 POST, recebe JSON User, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/User/read?id={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">User</span>/<span class="blue">read</span>?<span class="green">id</span>={integer}<br>
 GET, retorna JSON User</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/User/update<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">User</span>/<span class="blue">update</span><br>
 POST, recebe JSON User, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/User/delete?id={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">User</span>/<span class="blue">delete</span>?<span class="green">id</span>={integer}<br>
 POST, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/User/all<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">User</span>/<span class="blue">all</span><br>
 GET, retorna Array JSON User.</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/User/authenticate<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">User</span>/<span class="blue">authenticate</span><br>
 POST, recebe JSON { "login": string, "password": string }, retorna JSON User com os campos "login" e "password" null se autenticar ou JSON {} caso contrário.</p>
 
 <p><b>Group</b></p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/create<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">create</span><br>
 POST, recebe JSON Group, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/read?id={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">read</span>?<span class="green">id</span>={integer}<br>
 GET, retorna JSON Group.</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/update<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">update</span><br>
 POST, recebe JSON Group, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/delete?id={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">delete</span>?<span class="green">id</span>={integer}<br>
 POST, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/all<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">all</span><br>
 GET, retorna Array JSON Group.</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/getOwnerFromGroup?id={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">getOwnerFromGroup</span>?<span class="green">id</span>={integer}<br>
 GET, retorna JSON User.</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Group/getGroupsFromOwner?id={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Group</span>/<span class="blue">getGroupsFromOwner</span>?<span class="green">id</span>={integer}<br>
 GET, retorna JSON Group.</p>
 
 <p><b>User Group Membership</b></p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/UserGroupMembership/insertUserGroup?groupId={integer}&amp;userId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">UserGroupMembership</span>/<span class="blue">insertUserGroup</span>?<span class="green">groupId</span>={integer}&amp;<span class="green">userId</span>={integer}<br>
 POST, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/UserGroupMembership/deleteUserGroup?groupId={integer}&amp;userId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">UserGroupMembership</span>/<span class="blue">deleteUserGroup</span>?<span class="green">groupId</span>={integer}&amp;<span class="green">userId</span>={integer}<br>
 POST, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/UserGroupMembership/groupsUserIsIn?userId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">UserGroupMembership</span>/<span class="blue">groupsUserIsIn</span>?<span class="green">groupId</span>={integer}<br>
 GET, retorna Array JSON Group.</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/UserGroupMembership/usersFromGroup?groupId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">UserGroupMembership</span>/<span class="blue">usersFromGroup</span>?<span class="green">userId</span>={integer}<br>
 GET, retorna Array JSON User.</p>
 
 <p><b>Friendship</b></p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Friendship/addFriend?userId={integer}&amp;friendId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Friendship</span>/<span class="blue">addFriend</span>?<span class="green">userId</span>={integer}&amp;<span class="green">friendId</span>={integer}<br>
 POST, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Friendship/removeFriend?userId={integer}&amp;friendId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Friendship</span>/<span class="blue">removeFriend</span>?<span class="green">userId</span>={integer}&amp;<span class="green">friendId</span>={integer}<br>
 POST, retorna "ok".</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Friendship/getFriends?userId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Friendship</span>/<span class="blue">getFriends</span>?<span class="green">userId</span>={integer}<br>
 GET, retorna Array JSON User.</p>
-<p>http://benossi.ddns.net:9080/CastrServer/rest/Friendship/checkFriendship?userId={integer}&amp;friendId={integer}<br>
+<p>http://benossi.ddns.net:9080/CastrServer/rest/<span class="red">Friendship</span>/<span class="blue">checkFriendship</span>?<span class="green">userId</span>={integer}&amp;<span class="green">friendId</span>={integer}<br>
 GET, retorna JSON { "friends": boolean }.</p>
 
 </body>
