@@ -25,12 +25,22 @@ public class UserGroupMembershipDAO extends DAO {
 	}
 	
 	public void deleteUserGroup(int groupId, int userId) throws SQLException {
-		String query = "DELETE FROM MEMBER WHERE group_id = ? AND user_id = ?;";
+		String query 
+				= "WITH owner AS ( "
+					+ "SELECT creator_id "
+					+ "FROM GROUP_TABLE "
+					+ "WHERE id = ? "
+					+ ") "
+				+ "DELETE FROM MEMBER "
+				+ "USING owner "
+				+ "WHERE owner.creator_id != ? AND group_id = ? AND user_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, groupId);
 			stmt.setInt(2, userId);
+			stmt.setInt(3, groupId);
+			stmt.setInt(4, userId);
 			if(stmt.executeUpdate() < 1) {
-				throw new SQLException("Usuário ou Grupo não encontrado.");
+				throw new SQLException("Usuário ou Grupo não encontrado ou usuário é dono do grupo.");
 			}
 		}
 	}

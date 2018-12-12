@@ -16,7 +16,13 @@ public class GroupDAO extends DAO {
 	}
 
 	public void create(Group group) throws SQLException {
-		String query = "INSERT INTO GROUP_TABLE(name,creator_id) VALUES (?,?);";
+		String query 
+				= "WITH g AS ( "
+					+ "INSERT INTO GROUP_TABLE(name,creator_id) "
+					+ "VALUES (?,?) "
+					+ "RETURNING id as group_id, creator_id as user_id "
+					+ ") "
+				+ "INSERT INTO MEMBER (SELECT * FROM g);";
 		try (PreparedStatement stmt = connection.prepareStatement(query);){
 			stmt.setString(1, group.getName());
 			stmt.setInt(2, group.getCreatorId());
