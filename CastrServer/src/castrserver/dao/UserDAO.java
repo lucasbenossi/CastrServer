@@ -75,15 +75,21 @@ public class UserDAO extends DAO {
 		return users;
 	}
 	
-	public boolean authenticate(String login, String password) throws SQLException {
+	public User authenticate(String login, String password) throws SQLException {
 		String query = "SELECT * FROM USER_TABLE WHERE login = ? AND password = ?;";
+		User user = null;
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setString(1, login);
 			stmt.setString(2, password);
 			try (ResultSet result = stmt.executeQuery();) {
-				return result.next();
+				if(result.next()) {
+					user = new User(result);
+					user.setLogin(null);
+					user.setPassword(null);
+				}
 			}
 		}
+		return user;
 	}
 
 }

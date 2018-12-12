@@ -8,7 +8,7 @@ public class GsonUtils {
 	
 	public static Gson getInstance() {
 		if(gson == null) {
-			gson = new GsonBuilder().setPrettyPrinting().create();
+			gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 		}
 		return gson;
 	}

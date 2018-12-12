@@ -116,7 +116,7 @@ public class UserService {
 	}
 	
 	@POST
-	@Path("authenticate")
+	@Path("/authenticate")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
 	public Response authenticate(JsonElement json) {
@@ -129,10 +129,12 @@ public class UserService {
 			String login = jsonObj.get("login").getAsString();
 			String password = jsonObj.get("password").getAsString();
 			
-			JsonObject auth = new JsonObject();
-			auth.addProperty("authenticate", dao.authenticate(login, password));
-			
-			response = auth;
+			User user = dao.authenticate(login, password);
+			if(user != null) {
+				response = GsonUtils.getInstance().toJsonTree(user, User.class);
+			} else {
+				response = new JsonObject();
+			}
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 			return ExceptionHandler.toResponse(e);
