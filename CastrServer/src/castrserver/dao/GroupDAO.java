@@ -26,6 +26,7 @@ public class GroupDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);){
 			stmt.setString(1, group.getName());
 			stmt.setInt(2, group.getCreatorId());
+			System.out.println(stmt.toString());
 			stmt.execute();
 		}
 	}
@@ -35,6 +36,7 @@ public class GroupDAO extends DAO {
 		Group group = null;
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					group = new Group(result);
@@ -50,6 +52,7 @@ public class GroupDAO extends DAO {
 			stmt.setString(1, group.getName());
 			stmt.setInt(2, group.getCreatorId());
 			stmt.setInt(3, group.getId());
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Grupo não encontrado.");
 			}
@@ -60,6 +63,7 @@ public class GroupDAO extends DAO {
 		String query = "DELETE FROM GROUP_TABLE WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Grupo não encontrado");
 			}
@@ -69,10 +73,12 @@ public class GroupDAO extends DAO {
 	public LinkedList<Group> all() throws SQLException {
 		LinkedList<Group> groups = new LinkedList<>();
 		String query = "SELECT * FROM GROUP_TABLE;";
-		try (PreparedStatement stmt = connection.prepareStatement(query);
-				ResultSet result = stmt.executeQuery();) {
-			while(result.next()) {
-				groups.add(new Group(result));
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			System.out.println(stmt.toString());
+			try (ResultSet result = stmt.executeQuery();) {
+				while(result.next()) {
+					groups.add(new Group(result));
+				}
 			}
 		}
 		return groups;
@@ -86,6 +92,7 @@ public class GroupDAO extends DAO {
 		User owner = null;
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					owner = new User(result);
@@ -100,6 +107,7 @@ public class GroupDAO extends DAO {
 		String query = "SELECT * FROM GROUP_TABLE WHERE creator_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					groups.add(new Group(result));

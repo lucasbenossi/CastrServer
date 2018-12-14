@@ -21,6 +21,7 @@ public class FriendshipDAO extends DAO {
 			stmt.setInt(2, friendId);
 			stmt.setInt(3, friendId);
 			stmt.setInt(4, userId);
+			System.out.println(stmt.toString());
 			stmt.execute();
 		}
 	}
@@ -32,6 +33,7 @@ public class FriendshipDAO extends DAO {
 			stmt.setInt(2, friendId);
 			stmt.setInt(3, friendId);
 			stmt.setInt(4, userId);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Amizade não existe");
 			}
@@ -46,6 +48,7 @@ public class FriendshipDAO extends DAO {
 				+ "WHERE f.user_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, userId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					users.add(new User(result));
@@ -60,6 +63,7 @@ public class FriendshipDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, userId);
 			stmt.setInt(2, friendId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				return result.next();
 			}

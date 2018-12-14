@@ -21,6 +21,7 @@ public class UserDAO extends DAO {
 			stmt.setString(2, user.getPassword());
 			stmt.setString(3, user.getName());
 			stmt.setDate(4, user.getBirthday());
+			System.out.println(stmt.toString());
 			stmt.execute();
 		}
 	}
@@ -30,6 +31,7 @@ public class UserDAO extends DAO {
 		User user = null;
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					user = new User(result);
@@ -47,6 +49,7 @@ public class UserDAO extends DAO {
 			stmt.setString(3, user.getName());
 			stmt.setDate(4, user.getBirthday());
 			stmt.setInt(5, user.getId());
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("User não encontrado.");
 			}
@@ -57,6 +60,7 @@ public class UserDAO extends DAO {
 		String query = "DELETE FROM USER_TABLE WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("User não encontrado");
 			}
@@ -66,10 +70,12 @@ public class UserDAO extends DAO {
 	public LinkedList<User> all() throws SQLException {
 		LinkedList<User> users = new LinkedList<>();
 		String query = "SELECT * FROM USER_TABLE;";
-		try (PreparedStatement stmt = connection.prepareStatement(query);
-				ResultSet result = stmt.executeQuery();) {
-			while(result.next()) {
-				users.add(new User(result));
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			System.out.println(stmt.toString());
+			try (ResultSet result = stmt.executeQuery();) {
+				while(result.next()) {
+					users.add(new User(result));
+				}
 			}
 		}
 		return users;
@@ -81,6 +87,7 @@ public class UserDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setString(1, login);
 			stmt.setString(2, password);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					user = new User(result);

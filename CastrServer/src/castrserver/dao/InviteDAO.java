@@ -21,6 +21,7 @@ public class InviteDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
 			stmt.setInt(2, userId);
+			System.out.println(stmt.toString());
 			stmt.execute();
 		}
 	}
@@ -30,6 +31,7 @@ public class InviteDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
 			stmt.setInt(2, userId);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Convite não existe");
 			}
@@ -41,6 +43,7 @@ public class InviteDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
 			stmt.setInt(2, userId);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Convite não existe");
 			}
@@ -55,6 +58,7 @@ public class InviteDAO extends DAO {
 				+ "WHERE i.user_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, userId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					Game game = new Game(result);
@@ -74,6 +78,7 @@ public class InviteDAO extends DAO {
 				+ "WHERE i.game_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					User user = new User(result);

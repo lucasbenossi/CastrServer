@@ -22,6 +22,7 @@ public class GameDAO extends DAO {
 			stmt.setString(2, game.getLocation());
 			stmt.setDate(3, game.getGameDate());
 			stmt.setInt(4, game.getGroupId());
+			System.out.println(stmt.toString());
 			stmt.execute();
 		}
 	}
@@ -31,6 +32,7 @@ public class GameDAO extends DAO {
 		Game game = null;
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					game = new Game(result);
@@ -48,6 +50,7 @@ public class GameDAO extends DAO {
 			stmt.setDate(3, game.getGameDate());
 			stmt.setInt(4, game.getGroupId());
 			stmt.setInt(5, game.getId());
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Grupo não encontrado.");
 			}
@@ -58,6 +61,7 @@ public class GameDAO extends DAO {
 		String query = "DELETE FROM GAME WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, id);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Game não encontrado");
 			}
@@ -67,10 +71,12 @@ public class GameDAO extends DAO {
 	public LinkedList<Game> all() throws SQLException {
 		LinkedList<Game> games = new LinkedList<>();
 		String query = "SELECT * FROM GAME;";
-		try (PreparedStatement stmt = connection.prepareStatement(query);
-				ResultSet result = stmt.executeQuery();) {
-			while(result.next()) {
-				games.add(new Game(result));
+		try (PreparedStatement stmt = connection.prepareStatement(query);) {
+			System.out.println(stmt.toString());
+			try (ResultSet result = stmt.executeQuery();) {
+				while(result.next()) {
+					games.add(new Game(result));
+				}
 			}
 		}
 		return games;
@@ -84,6 +90,7 @@ public class GameDAO extends DAO {
 				+ "WHERE j.id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				if(result.next()) {
 					group = new Group(result);
@@ -98,6 +105,7 @@ public class GameDAO extends DAO {
 		String query = "SELECT * FROM GAME WHERE group_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, groupId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					games.add(new Game(result));

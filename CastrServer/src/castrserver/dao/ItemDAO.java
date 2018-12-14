@@ -17,6 +17,7 @@ public class ItemDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
 			stmt.setString(2, item);
+			System.out.println(stmt.toString());
 			stmt.execute();
 		}
 	}
@@ -26,6 +27,7 @@ public class ItemDAO extends DAO {
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
 			stmt.setString(2, item);
+			System.out.println(stmt.toString());
 			if(stmt.executeUpdate() < 1) {
 				throw new SQLException("Item não existe no jogo especificado");
 			}
@@ -37,6 +39,7 @@ public class ItemDAO extends DAO {
 		String query = "SELECT item FROM ITEMS WHERE game_id = ?;";
 		try (PreparedStatement stmt = connection.prepareStatement(query);) {
 			stmt.setInt(1, gameId);
+			System.out.println(stmt.toString());
 			try (ResultSet result = stmt.executeQuery();) {
 				while(result.next()) {
 					items.add(result.getString(1));
